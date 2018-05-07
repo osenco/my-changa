@@ -36,13 +36,13 @@ function mc_settings_init() {
     
     // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mc_mpesa_conf_type',
+        'mc_mpesa_conf_type',
         __( 'Identifier Type', 'mc' ),
         'mc_fields_mc_mpesa_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mc_mpesa_conf_type',
+        'label_for' => 'mc_mpesa_conf_type',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
@@ -50,13 +50,13 @@ function mc_settings_init() {
     
     // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mc_mpesa_conf_conkey',
+        'mc_mpesa_conf_conkey',
         __( 'App Consumer Key', 'mc' ),
         'mc_fields_mc_mpesa_ck_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mc_mpesa_conkey',
+        'label_for' => 'mc_mpesa_conkey',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
@@ -64,13 +64,13 @@ function mc_settings_init() {
     
     // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mc_mpesa_conf_consec',
+        'mc_mpesa_conf_consec',
         __( 'App Consumer Secret', 'mc' ),
         'mc_fields_mc_mpesa_cs_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mc_mpesa_consec',
+        'label_for' => 'mc_mpesa_consec',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
@@ -78,13 +78,13 @@ function mc_settings_init() {
     
     // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mc_mpesa_conf_shortcode',
+        'mc_mpesa_conf_shortcode',
         __( 'Mpesa Shortcode', 'mc' ),
         'mc_fields_mc_mpesa_shortcode_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mc_mpesa_conf_shortcode',
+        'label_for' => 'mc_mpesa_conf_shortcode',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
@@ -92,13 +92,13 @@ function mc_settings_init() {
     
     // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mc_mpesa_conf_passkey',
+        'mc_mpesa_conf_passkey',
         __( 'Online Passkey', 'mc' ),
         'mc_fields_mc_mpesa_pk_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mc_mpesa_conf_passkey',
+        'label_for' => 'mc_mpesa_conf_passkey',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
@@ -106,13 +106,27 @@ function mc_settings_init() {
     
     // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mc_mpesa_conf_cred',
+        'mc_mpesa_conf_cred',
         __( 'Security Credentials', 'mc' ),
         'mc_fields_mc_mpesa_sc_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mc_mpesa_conf_cred',
+        'label_for' => 'mc_mpesa_conf_cred',
+        'class' => 'mc_row',
+        'mc_custom_data' => 'custom',
+        ]
+    );
+    
+    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
+    add_settings_field(
+        'mc_mpesa_conf_msg',
+        __( 'Message', 'mc' ),
+        'mc_fields_mc_mpesa_msg_cb',
+        'mc',
+        'mc_section_mpesa',
+        [
+        'label_for' => 'mc_mpesa_conf_msg',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
@@ -236,6 +250,16 @@ function mc_fields_mc_mpesa_sc_cb( $args ) {
     <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='7' cols='50' type='textarea'><?php echo esc_attr( $options[ $args['label_for'] ] ); ?></textarea>
     <p class="description">
     <?php esc_html_e( 'Security Credentials', 'mc' ); ?>
+    </p>
+    <?php
+}
+
+function mc_fields_mc_mpesa_msg_cb( $args ) {
+    $options = get_option( 'mc_options' );
+    ?>
+    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='7' cols='50' type='textarea'><?php echo esc_attr( $options[ $args['label_for'] ] ); ?></textarea>
+    <p class="description">
+    <?php esc_html_e( 'After Contribution Message', 'mc' ); ?>
     </p>
     <?php
 }
