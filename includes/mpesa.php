@@ -689,7 +689,7 @@ function  mc_mpesa_stk_push( $args )
  * Wrapper function for @see Mpesa::register()
  * @return string
  */
-function  mc_mpesa_register()
+function  mc_mpesa_register_urls()
 {
     return MyMPesa::register(); 
 }
