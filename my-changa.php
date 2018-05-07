@@ -74,7 +74,9 @@ mc_mpesa_setup( $mconfig );
 
 add_shortcode('MCFORM', 'mc_form_callback');
 function mc_form_callback( $atts = array(), $content = null ) {
-	$status = isset( $_SESSION['mc_trx_status'] ) ? $_SESSION['mc_trx_status'] : '';
+	$mconfig = get_option( 'mc_options' );
+
+	$status = isset( $_SESSION['mc_trx_status'] ) ? $mconfig['mc_mpesa_conf_msg'].'<br>'.$_SESSION['mc_trx_status'] : '';
     $output = '<form method="POST" action="" class="mc_contribution_form">
     	<p>'.$status.'</p>
     	<input type="hidden" name="action" value="process_mc_form">
@@ -99,7 +101,7 @@ function mc_process_form_data() {
   	
   	$response 	= mc_mpesa_checkout( $amount, $phone, 'Contributions' );
   	$status 	= json_decode( $response );
-  	$_SESSION['mc_trx_status'] = "Request ID: $status->requestId";
+  	$_SESSION['mc_trx_status'] = "<b>Request ID:</b> $status->requestId";
   }
 }
 /**
