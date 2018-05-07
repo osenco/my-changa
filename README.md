@@ -16,5 +16,5 @@ If interested in contributing to the development of this plugin, please fork the
 ## Licensing
 This work is released under the MIT License, which grants you permission to use, share and modify the software at no additional cost, and for you to optionally grant the same right to others, subject to two conditions:
 
-`I don't guarantee that the software doesn't work properly/perfectly.`
-`I still own the copyright to their work, so you can't remove the license. If you modify the software, you should be clear about any changes you have made, and what license you are distributing those changes under.`
+`<li>I don't guarantee that the software doesn't work properly/perfectly.</li>`
+`<li>I still own the copyright to their work, so you can't remove the license. If you modify the software, you should be clear about any changes you have made, and what license you are distributing those changes under.</li>`
