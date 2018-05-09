@@ -3,8 +3,8 @@ add_action( 'admin_init', 'mc_settings_init' );
 function mc_settings_init() {
     register_setting( 'mc', 'mc_options' );
     
-    add_settings_section( 'mc_section_general', __( 'Configure My Changa here.', 'mc' ), 'mc_section_general_cb', 'mc' );
-    add_settings_section( 'mc_section_mpesa', __( 'Configure MPesa here.', 'mc' ), 'mc_section_mc_mpesa_cb', 'mc' );
+    add_settings_section( 'mc_section_general', __( 'General Configuration.', 'mc' ), 'mc_section_general_cb', 'mc' );
+    add_settings_section( 'mc_section_mpesa', __( 'MPesa Configuration.', 'mc' ), 'mc_section_mc_mpesa_cb', 'mc' );
 
     add_settings_field(
         'mc_conf_env',
@@ -152,7 +152,7 @@ function mc_settings_init() {
  
 function mc_section_general_cb( $args ) {
     ?>
-    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'General plugin settings.', 'mc' ); ?></p>
+    <p id="<?php echo esc_attr( $args['id'] ); ?>-config"><?php esc_html_e( 'After configuring everything, create a post or page and use the following shortcode to render the form: ', 'mc' ); ?><code>[MCFORM]</code></p>
     <?php
 }
 function mc_section_mc_mpesa_cb( $args ) {
@@ -173,10 +173,10 @@ function mc_fields_env_cb( $args ) {
     data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
     name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
     >
-        <option value="live" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
+        <option value="live" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'live', false ) ) : ( '' ); ?>>
         <?php esc_html_e( 'Live', 'mc' ); ?>
         </option>
-        <option value="sandbox" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
+        <option value="sandbox" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'sandbox', false ) ) : ( '' ); ?>>
         <?php esc_html_e( 'Sandbox', 'mc' ); ?>
         </option>
     </select>
@@ -223,14 +223,14 @@ function mc_fields_mc_mpesa_cb( $args ) {
     data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
     name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
     >
-    <option value="1" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
-    <?php esc_html_e( 'Shortcode', 'mc' ); ?>
+    <option value="1" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], '1', false ) ) : ( '' ); ?>>
+    <?php esc_html_e( 'MSISDN', 'mc' ); ?>
     </option>
-    <option value="3" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
+    <option value="2" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], '2', false ) ) : ( '' ); ?>>
     <?php esc_html_e( 'Till Number', 'mc' ); ?>
     </option>
-    <option value="4" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
-    <?php esc_html_e( 'MSISDN', 'mc' ); ?>
+    <option value="4" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], '4', false ) ) : ( '' ); ?>>
+    <?php esc_html_e( 'Shortcode', 'mc' ); ?>
     </option>
     </select>
     <p class="description">
@@ -350,7 +350,7 @@ function mc_options_page_html() {
     // wordpress will add the "settings-updated" $_GET parameter to the url
     if ( isset( $_GET['settings-updated'] ) ) {
     // add settings saved message with the class of "updated"
-    add_settings_error( 'mc_messages', 'mc_message', __( 'Settings Saved', 'mc' ), 'updated' );
+    add_settings_error( 'mc_messages', 'mc_message', __( 'My Changa Settings Updated', 'mc' ), 'updated' );
     }
     
     // show error/update messages
