@@ -1,124 +1,141 @@
 <?php
 add_action( 'admin_init', 'mc_settings_init' );
 function mc_settings_init() {
-    // register a new setting for "mc" page
     register_setting( 'mc', 'mc_options' );
     
-    // register a new section in the "mc" page
-    add_settings_section(
-        'mc_section_general',
-        __( 'Configure My Changa here.', 'mc' ),
-        'mc_section_general_cb',
-        'mc'
-    );
-    
-    // register a new section in the "mc" page
-    add_settings_section(
-        'mc_section_mpesa',
-        __( 'Configure MPesa here.', 'mc' ),
-        'mc_section_mc_mpesa_cb',
-        'mc'
-    );
-    
-    // register a new field in the "mc_section_general" section, inside the "mc" page
+    add_settings_section( 'mc_section_general', __( 'Configure My Changa here.', 'mc' ), 'mc_section_general_cb', 'mc' );
+    add_settings_section( 'mc_section_mpesa', __( 'Configure MPesa here.', 'mc' ), 'mc_section_mc_mpesa_cb', 'mc' );
+
     add_settings_field(
-        'mc_env_conf',
+        'mc_conf_env',
         __( 'Environment', 'mc' ),
         'mc_fields_env_cb',
         'mc',
         'mc_section_general',
         [
-        'label_for' => 'mc_env_conf',
+        'label_for' => 'mc_conf_env',
+        'class' => 'mc_row',
+        'mc_custom_data' => 'custom',
+        ]
+    );
+
+    add_settings_field(
+        'mc_conf_name',
+        __( 'Business Name', 'mc' ),
+        'mc_fields_name_cb',
+        'mc',
+        'mc_section_general',
+        [
+        'label_for' => 'mc_conf_name',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
     );
     
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mpesa_conf_type',
+        'mc_conf_type',
         __( 'Identifier Type', 'mc' ),
         'mc_fields_mc_mpesa_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mpesa_conf_type',
+        'label_for' => 'mc_conf_type',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
     );
     
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mpesa_conf_conkey',
-        __( 'App Consumer Key', 'mc' ),
-        'mc_fields_mc_mpesa_ck_cb',
-        'mc',
-        'mc_section_mpesa',
-        [
-        'label_for' => 'mc_mpesa_conkey',
-        'class' => 'mc_row',
-        'mc_custom_data' => 'custom',
-        ]
-    );
-    
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
-    add_settings_field(
-        'mc_mpesa_conf_consec',
-        __( 'App Consumer Secret', 'mc' ),
-        'mc_fields_mc_mpesa_cs_cb',
-        'mc',
-        'mc_section_mpesa',
-        [
-        'label_for' => 'mc_mpesa_consec',
-        'class' => 'mc_row',
-        'mc_custom_data' => 'custom',
-        ]
-    );
-    
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
-    add_settings_field(
-        'mc_mpesa_conf_shortcode',
+        'mc_conf_shortcode',
         __( 'Mpesa Shortcode', 'mc' ),
         'mc_fields_mc_mpesa_shortcode_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mpesa_conf_shortcode',
+        'label_for' => 'mc_conf_shortcode',
+        'class' => 'mc_row',
+        'mc_custom_data' => 'custom',
+        ]
+    );
+
+    add_settings_field(
+        'mc_conf_username',
+        __( 'MPesa Portal Username', 'mc' ),
+        'mc_fields_mc_mpesa_pu_cb',
+        'mc',
+        'mc_section_mpesa',
+        [
+        'label_for' => 'mc_env_name',
+        'class' => 'mc_row',
+        'mc_custom_data' => 'custom',
+        ]
+    );
+
+    add_settings_field(
+        'mc_conf_password',
+        __( 'MPesa Portal Password', 'mc' ),
+        'mc_fields_mc_mpesa_pp_cb',
+        'mc',
+        'mc_section_mpesa',
+        [
+        'label_for' => 'mc_conf_password',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
     );
     
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mpesa_conf_passkey',
+        'mc_conf_key',
+        __( 'App Consumer Key', 'mc' ),
+        'mc_fields_mc_mpesa_ck_cb',
+        'mc',
+        'mc_section_mpesa',
+        [
+        'label_for' => 'mc_conf_key',
+        'class' => 'mc_row',
+        'mc_custom_data' => 'custom',
+        ]
+    );
+
+    add_settings_field(
+        'mc_conf_secret',
+        __( 'App Consumer Secret', 'mc' ),
+        'mc_fields_mc_mpesa_cs_cb',
+        'mc',
+        'mc_section_mpesa',
+        [
+        'label_for' => 'mc_conf_secret',
+        'class' => 'mc_row',
+        'mc_custom_data' => 'custom',
+        ]
+    );
+    
+    add_settings_field(
+        'mc_conf_passkey',
         __( 'Online Passkey', 'mc' ),
         'mc_fields_mc_mpesa_pk_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mpesa_conf_passkey',
+        'label_for' => 'mc_conf_passkey',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
     );
     
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
-        'mc_mpesa_conf_cred',
+        'mc_conf_credentials',
         __( 'Security Credentials', 'mc' ),
         'mc_fields_mc_mpesa_sc_cb',
         'mc',
         'mc_section_mpesa',
         [
-        'label_for' => 'mc_mpesa_conf_cred',
+        'label_for' => 'mc_conf_credentials',
         'class' => 'mc_row',
         'mc_custom_data' => 'custom',
         ]
     );
     
-    // register a new field in the "mc_section_mpesa" section, inside the "mc" page
     add_settings_field(
         'mc_mpesa_conf_msg',
         __( 'Message', 'mc' ),
@@ -139,12 +156,12 @@ function mc_section_general_cb( $args ) {
     <?php
 }
 function mc_section_mc_mpesa_cb( $args ) {
-    $options = get_option( 'mc_options' );
+    $options = get_option( 'mc_options', ['mc_conf_env'=>'sandbox'] );
     ?>
     <p id="<?php echo esc_attr( $args['id'] ); ?>">
         <h4 style="color: red;">IMPORTANT!</h4><li>Please <a href="https://developer.safaricom.co.ke/" target="_blank" >create an app on Daraja</a> if you haven't. Fill in the app's consumer key and secret below.</li><li>For security purposes, and for the MPesa Instant Payment Notification to work, ensure your site is running over https(SSL).</li>
         <li>You can <a href="https://developer.safaricom.co.ke/test_credentials" target="_blank" >generate sandbox test credentials here</a>.</li>
-        <li>Click here to <a href="<?php echo home_url( '/?mpesa_ipn_register='.esc_attr( $options['mc_env_conf'] ) ); ?>" target="_blank">register confirmation & validation URLs for <?php echo esc_attr( $options['mc_env_conf'] ); ?> </a></li>
+        <li>Click here to <a href="<?php echo home_url( '/?mpesa_ipn_register='.esc_attr( $options['mc_conf_env'] ) ); ?>" target="_blank">register confirmation & validation URLs for <?php echo esc_attr( $options['mc_conf_env'] ); ?> </a></li>
     </p>
     <?php
 }
@@ -169,13 +186,29 @@ function mc_fields_env_cb( $args ) {
     <?php
 }
 
+function mc_fields_name_cb( $args ) {
+    $options = get_option( 'mc_options' );
+    ?>
+    <input type="text" id="<?php echo esc_attr( $args['label_for'] ); ?>"
+    data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
+    name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+    value="<?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?>"
+    class="regular-text"
+    >
+    <p class="description">
+    <?php esc_html_e( 'Business name as registered with Safaricom MPesa', 'mc' ); ?>
+    </p>
+    <?php
+}
+
 function mc_fields_mc_mpesa_shortcode_cb( $args ) {
     $options = get_option( 'mc_options' );
     ?>
     <input type="text" id="<?php echo esc_attr( $args['label_for'] ); ?>"
     data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
     name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-    value="<?php echo esc_attr( $options[ $args['label_for'] ] ); ?>"
+    value="<?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?>"
+    class="regular-text"
     >
     <p class="description">
     <?php esc_html_e( 'Paybill/Till or phone number', 'mc' ); ?>
@@ -212,10 +245,41 @@ function mc_fields_mc_mpesa_ck_cb( $args ) {
     <input type="text" id="<?php echo esc_attr( $args['label_for'] ); ?>"
     data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
     name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-    value="<?php echo esc_attr( $options[ $args['label_for'] ] ); ?>"
+    value="<?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?>"
+    class="regular-text"
     >
     <p class="description">
     <?php esc_html_e( 'Daraja application consumer key.', 'mc' ); ?>
+    </p>
+    <?php
+}
+
+function mc_fields_mc_mpesa_pu_cb( $args ) {
+    $options = get_option( 'mc_options' );
+    ?>
+    <input type="text" id="<?php echo esc_attr( $args['label_for'] ); ?>"
+    data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
+    name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+    value="<?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?>"
+    class="regular-text"
+    >
+    <p class="description">
+    <?php esc_html_e( 'MPesa portal username.', 'mc' ); ?>
+    </p>
+    <?php
+}
+
+function mc_fields_mc_mpesa_pp_cb( $args ) {
+    $options = get_option( 'mc_options' );
+    ?>
+    <input type="text" id="<?php echo esc_attr( $args['label_for'] ); ?>"
+    data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
+    name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+    value="<?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?>"
+    class="regular-text"
+    >
+    <p class="description">
+    <?php esc_html_e( 'MPesa portal user password.', 'mc' ); ?>
     </p>
     <?php
 }
@@ -226,7 +290,8 @@ function mc_fields_mc_mpesa_cs_cb( $args ) {
     <input type="text" id="<?php echo esc_attr( $args['label_for'] ); ?>"
     data-custom="<?php echo esc_attr( $args['mc_custom_data'] ); ?>"
     name="mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-    value="<?php echo esc_attr( $options[ $args['label_for'] ] ); ?>"
+    value="<?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?>"
+    class="regular-text"
     >
     <p class="description">
     <?php esc_html_e( 'Daraja application consumer secret', 'mc' ); ?>
@@ -237,7 +302,12 @@ function mc_fields_mc_mpesa_cs_cb( $args ) {
 function mc_fields_mc_mpesa_pk_cb( $args ) {
     $options = get_option( 'mc_options' );
     ?>
-    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='7' cols='50' type='textarea'><?php echo esc_attr( $options[ $args['label_for'] ] ); ?></textarea>
+    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" 
+        name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' 
+        rows='2' 
+        cols='50' 
+        type='textarea'
+        class="large-text code"><?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?></textarea>
     <p class="description">
     <?php esc_html_e( 'Online Pass Key', 'mc' ); ?>
     </p>
@@ -247,7 +317,7 @@ function mc_fields_mc_mpesa_pk_cb( $args ) {
 function mc_fields_mc_mpesa_sc_cb( $args ) {
     $options = get_option( 'mc_options' );
     ?>
-    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='7' cols='50' type='textarea'><?php echo esc_attr( $options[ $args['label_for'] ] ); ?></textarea>
+    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='3' cols='50' type='textarea' class="large-text code"><?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : '' ); ?></textarea>
     <p class="description">
     <?php esc_html_e( 'Security Credentials', 'mc' ); ?>
     </p>
@@ -257,7 +327,7 @@ function mc_fields_mc_mpesa_sc_cb( $args ) {
 function mc_fields_mc_mpesa_msg_cb( $args ) {
     $options = get_option( 'mc_options' );
     ?>
-    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='7' cols='50' type='textarea'><?php echo esc_attr( $options[ $args['label_for'] ] ); ?></textarea>
+    <textarea id="<?php echo esc_attr( $args['label_for'] ); ?>" name='mc_options[<?php echo esc_attr( $args['label_for'] ); ?>]' rows='3' cols='50' type='textarea' class="large-text code"><?php echo esc_attr( isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : 'Thank you for your contribution.' ); ?></textarea>
     <p class="description">
     <?php esc_html_e( 'After Contribution Message', 'mc' ); ?>
     </p>
@@ -296,7 +366,7 @@ function mc_options_page_html() {
             // (sections are registered for "mc", each field is registered to a specific section)
             do_settings_sections( 'mc' );
             // output save settings button
-            submit_button( 'Save Settings' );
+            submit_button( 'Save My Changa Settings' );
             ?>
         </form>
     </div>
