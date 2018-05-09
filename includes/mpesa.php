@@ -8,22 +8,22 @@
 
 function mc_mpesa_setup( $config )
 {
-    $GLOBALS['mc_mpesa_env']               = $config['env'];
-    $GLOBALS['mc_mpesa_name']              = $config['name'];
-    $GLOBALS['mc_mpesa_shortcode']         = $config['shortcode'];
-    $GLOBALS['mc_mpesa_type']              = $config['type'];
-    $GLOBALS['mc_mpesa_key']               = $config['key'];
-    $GLOBALS['mc_mpesa_secret']            = $config['secret'];
-    $GLOBALS['mc_mpesa_username']          = $config['username'];
-    $GLOBALS['mc_mpesa_password']          = $config['password'];
-    $GLOBALS['mc_mpesa_passkey']           = $config['passkey'];
-    $GLOBALS['mc_mpesa_callback_url']      = $config['callback_url'];
-    $GLOBALS['mc_mpesa_timeout_url']       = $config['timeout_url'];
-    $GLOBALS['mc_mpesa_result_url']        = $config['result_url'];
-    $GLOBALS['mc_mpesa_confirmation_url']  = $config['confirmation_url'];
-    $GLOBALS['mc_mpesa_validation_url']    = $config['validation_url'];
+    $GLOBALS['mc_mpesa_env']               = $config['mc_conf_env'];
+    $GLOBALS['mc_mpesa_name']              = $config['mc_conf_name'];
+    $GLOBALS['mc_mpesa_shortcode']         = $config['mc_conf_shortcode'];
+    $GLOBALS['mc_mpesa_type']              = $config['mc_conf_type'];
+    $GLOBALS['mc_mpesa_key']               = $config['mc_conf_key'];
+    $GLOBALS['mc_mpesa_secret']            = $config['mc_conf_secret'];
+    $GLOBALS['mc_mpesa_username']          = $config['mc_conf_username'];
+    $GLOBALS['mc_mpesa_password']          = $config['mc_conf_password'];
+    $GLOBALS['mc_mpesa_passkey']           = $config['mc_conf_passkey'];
+    $GLOBALS['mc_mpesa_callback_url']      = $config['mc_conf_callback_url'];
+    $GLOBALS['mc_mpesa_timeout_url']       = $config['mc_conf_timeout_url'];
+    $GLOBALS['mc_mpesa_result_url']        = $config['mc_conf_result_url'];
+    $GLOBALS['mc_mpesa_confirmation_url']  = $config['mc_conf_confirmation_url'];
+    $GLOBALS['mc_mpesa_validation_url']    = $config['mc_conf_validation_url'];
 
-    $GLOBALS['mc_mpesa_country']           = isset( $config['country'] ) ? $config['country'] : 254;
+    $GLOBALS['mc_mpesa_country']           = isset( $config['mc_conf_country'] ) ? $config['mc_conf_country'] : 254;
 
     /**
      * Main MyMPesa class 
