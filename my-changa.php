@@ -103,10 +103,10 @@ function mc_form_callback( $atts = array(), $content = null ) {
   	<p>'.$status.'</p>
   	<input type="hidden" name="action" value="process_mc_form">
   	<label for="mc-phone">Phone Number</label>
-  	<input id="mc-phone" type="text" name="phone" placeholder="Phone Number" class="mc_phone"><br>
+  	<input id="mc-phone" type="text" name="mc-phone" placeholder="Phone Number" class="mc_phone"><br>
 
   	<label for="mc-amount">Amount to contribute</label>
-  	<input id="mc-amount" type="text" name="amount" value="500" class="mc_amount"><br>
+  	<input id="mc-amount" type="text" name="mc-amount" value="500" class="mc_amount"><br>
 
   	<button type="submit" name="mc-contribute" class="mc_contribute">CONTRIBUTE</button>
   </form>';
@@ -115,9 +115,9 @@ function mc_form_callback( $atts = array(), $content = null ) {
 add_action( 'init', 'mc_process_form_data' );
 function mc_process_form_data() {
   if ( isset( $_POST['mc-contribute'] ) ) {
+    $amount   = trim( $_POST['mc-amount'] );
   	$phone 		= trim( $_POST['mc-phone'] );
-  	$amount 	= trim( $_POST['mc-amount'] );
-  	
+    
   	$response 	= mc_mpesa_checkout( $amount, $phone, 'Contributions' );
   	$status 	= json_decode( $response );
 
@@ -126,12 +126,12 @@ function mc_process_form_data() {
     } elseif ( isset( $status->errorCode ) ) {
       $s .= "<b>Request ID:</b> {$status->requestId}<br>";
       $s .= "<b>Error Code:</b> {$status->errorCode}<br>";
-      $s .= "<b>Error Message:</b> {$status->errorMessage}<br>";
+      $s .= "<b>Error Message:</b> {$status->errorMessage} {$phone}<br>";
     } else {
       $ss = $status->Body->stkCallback;
-      $s .= "<b>Request ID:</b> {$ss->MerchantRequestID}";
-      $s .= "<b>Checkout ID:</b> {$ss->CheckoutRequestID}";
-      $s .= "<b>Code:</b> {$ss->ResultCode}";
+      $s .= "<b>Request ID:</b> {$ss->MerchantRequestID}<br>";
+      $s .= "<b>Checkout ID:</b> {$ss->CheckoutRequestID}<br>";
+      $s .= "<b>Code:</b> {$ss->ResultCode}<br>";
       $s .= "<b>Description:</b> {$ss->ResultDesc}";
     }
 
