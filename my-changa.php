@@ -64,12 +64,11 @@ function mc_options_page()
 }
 
 $mconfig = get_option( 'mc_options' );
-$mconfig['callback_url'] 		= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=reconcile';
-$mconfig['timeout_url'] 		= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=timeout';
-$mconfig['result_url'] 		= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=reconcile';
-$mconfig['confirmation_url'] 	= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=confirm';
-$mconfig['validation_url'] 	= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=validate';
-
+$mconfig['mc_callback_url']     = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=reconcile';
+$mconfig['mc_timeout_url']      = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=timeout';
+$mconfig['mc_result_url'] 		  = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=reconcile';
+$mconfig['mc_confirmation_url'] = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=confirm';
+$mconfig['mc_validation_url'] 	= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=validate';
 mc_mpesa_setup( $mconfig );
 
 add_shortcode('MCFORM', 'mc_form_callback');
@@ -77,20 +76,17 @@ function mc_form_callback( $atts = array(), $content = null ) {
 	$mconfig = get_option( 'mc_options' );
 
 	$status = isset( $_SESSION['mc_trx_status'] ) ? $mconfig['mc_mpesa_conf_msg'].'<br>'.$_SESSION['mc_trx_status'] : '';
-    $output = '<form method="POST" action="" class="mc_contribution_form">
-    	<p>'.$status.'</p>
-    	<input type="hidden" name="action" value="process_mc_form">
-    	<label for="mc-phone">Phone Number</label>
-    	<input id="mc-phone" type="text" name="phone" placeholder="Phone Number" class="mc_phone"><br>
+  return '<form method="POST" action="" class="mc_contribution_form">
+  	<p>'.$status.'</p>
+  	<input type="hidden" name="action" value="process_mc_form">
+  	<label for="mc-phone">Phone Number</label>
+  	<input id="mc-phone" type="text" name="phone" placeholder="Phone Number" class="mc_phone"><br>
 
-    	<label for="mc-amount">Amount to contribute</label>
-    	<input id="mc-amount" type="text" name="amount" value="500" class="mc_amount"><br>
+  	<label for="mc-amount">Amount to contribute</label>
+  	<input id="mc-amount" type="text" name="amount" value="500" class="mc_amount"><br>
 
-    	<button type="submit" name="mc-contribute" class="mc_contribute">CONTRIBUTE</button>
-    </form>';
-
-    return $output;
-
+  	<button type="submit" name="mc-contribute" class="mc_contribute">CONTRIBUTE</button>
+  </form>';
 }
 
 add_action( 'init', 'mc_process_form_data' );
@@ -101,7 +97,22 @@ function mc_process_form_data() {
   	
   	$response 	= mc_mpesa_checkout( $amount, $phone, 'Contributions' );
   	$status 	= json_decode( $response );
-  	$_SESSION['mc_trx_status'] = "<b>Request ID:</b> $status->requestId";
+
+    if( !$response ){
+      $s .= "<b>Failed!</b> Could not process contribution. Please try again";
+    } elseif ( isset( $status->errorCode ) ) {
+      $s .= "<b>Request ID:</b> {$status->requestId}<br>";
+      $s .= "<b>Error Code:</b> {$status->errorCode}<br>";
+      $s .= "<b>Error Message:</b> {$status->errorMessage}<br>";
+    } else {
+      $ss = $status->Body->stkCallback;
+      $s .= "<b>Request ID:</b> {$ss->MerchantRequestID}";
+      $s .= "<b>Checkout ID:</b> {$ss->CheckoutRequestID}";
+      $s .= "<b>Code:</b> {$ss->ResultCode}";
+      $s .= "<b>Description:</b> {$ss->ResultDesc}";
+    }
+
+    $_SESSION['mc_trx_status'] = $s;
   }
 }
 /**
