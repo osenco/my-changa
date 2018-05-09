@@ -18,9 +18,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+if ( ! defined( 'WPINC' ) ) die;
 
 /**
  * Currently plugin version.
@@ -76,7 +74,7 @@ function mc_row_meta( $links, $file )
 
     return array_merge( $links, $row_meta );
   }
-
+	
   return ( array ) $links;
 }
 
