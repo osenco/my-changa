@@ -53,7 +53,7 @@ add_action('admin_menu', 'mc_options_page');
 function mc_options_page()
 {
     add_menu_page(
-        'My Changa Options',
+        'My Changa Settings',
         'My Changa',
         'manage_options',
         'mc',
@@ -61,6 +61,29 @@ function mc_options_page()
         'dashicons-smiley',
         20
     );
+}
+
+add_filter( 'plugin_row_meta', 'mc_row_meta', 10, 2 );
+function mc_row_meta( $links, $file )
+{
+  $plugin = plugin_basename( __FILE__ );
+
+  if ( $plugin == $file ) {
+    $row_meta = array( 
+      'github'    => '<a href="' . esc_url( 'https://github.com/wcmpesa/my-changa' ) . '" target="_blank" aria-label="' . esc_attr__( 'Contribute on Github', 'woocommerce' ) . '">' . esc_html__( 'Github', 'woocommerce' ) . '</a>',
+      'apidocs' => '<a href="' . esc_url( 'https://developer.safaricom.co.ke/docs/' ) . '" target="_blank" aria-label="' . esc_attr__( 'MPesa API Docs ( Daraja )', 'woocommerce' ) . '">' . esc_html__( 'API docs', 'woocommerce' ) . '</a>'
+     );
+
+    return array_merge( $links, $row_meta );
+  }
+
+  return ( array ) $links;
+}
+
+add_filter( 'plugin_action_links_'.plugin_basename( __FILE__ ), 'mc_action_links' );
+function mc_action_links( $links )
+{
+  return array_merge( $links, [ '<a href="'.admin_url( 'admin.php?page=mc' ).'">&nbsp;Preferences</a>' ] );
 }
 
 $mconfig = get_option( 'mc_options' );
