@@ -12,9 +12,9 @@ To render the contribution form, create a new post/page and use the following sh
 
 ## Customization
 The form can be customized with custom CSS styling of the various classes or IDs as follows
-<li> <b>Form</b> `.mc_contribution_form` or `#mc-contribution-form`</li>
-<li> <b>Phone</b> `.mc_phone` or `#mc-phone`</li>
-<li> <b>Amount</b> `.mc_amount` or `#mc-amount`</li>
+  <b>Form</b> `.mc_contribution_form` or `#mc-contribution-form`
+  <b>Phone</b> `.mc_phone` or `#mc-phone`
+  <b>Amount</b> `.mc_amount` or `#mc-amount`
 
 ## Contribution
 If interested in contributing to the development of this plugin, please fork the project, do your magic and submit a pull request. I will review your changes and incorporate your changaes if they are alright.
