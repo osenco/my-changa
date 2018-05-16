@@ -11,38 +11,39 @@
  * Version:           1.0.0
  * Author:            Mauko Maunde
  * Author URI:        https://mauko.co.ke
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           MIT
+ * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       my-changa
  * Domain Path:       /languages
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) die;
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 /**
- * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
  */
 define( 'MY_CHANGA_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
+ * @todo Create default configuration - mc-options
  */
 register_activation_hook( __FILE__, 'activate_my_changa' );
 function activate_my_changa() {
 }
 
 /**
- * The code that runs during plugin deactivation.
+ * Delete mc-options setting during plugin deactivation.
  */
 register_deactivation_hook( __FILE__, 'deactivate_my_changa' );
 function deactivate_my_changa() {
 }
 
 /**
- * The main MyMPesa file
+ * Include external files
  */
 require plugin_dir_path( __FILE__ ) . 'includes/mpesa.php';
 require plugin_dir_path( __FILE__ ) . 'includes/settings.php';
@@ -50,15 +51,15 @@ require plugin_dir_path( __FILE__ ) . 'includes/settings.php';
 add_action('admin_menu', 'mc_options_page');
 function mc_options_page()
 {
-    add_menu_page(
-        'My Changa Settings',
-        'My Changa',
-        'manage_options',
-        'mc',
-        'mc_options_page_html',
-        'dashicons-smiley',
-        20
-    );
+  add_menu_page(
+    'My Changa Settings',
+    'My Changa',
+    'manage_options',
+    'mc',
+    'mc_options_page_html',
+    'dashicons-smiley',
+    20
+  );
 }
 
 add_filter( 'plugin_row_meta', 'mc_row_meta', 10, 2 );
@@ -74,7 +75,7 @@ function mc_row_meta( $links, $file )
 
     return array_merge( $links, $row_meta );
   }
-	
+
   return ( array ) $links;
 }
 
@@ -97,9 +98,10 @@ function mc_form_callback( $atts = array(), $content = null ) {
 	$mconfig = get_option( 'mc_options' );
 
 	$status = isset( $_SESSION['mc_trx_status'] ) ? $mconfig['mc_mpesa_conf_msg'].'<br>'.$_SESSION['mc_trx_status'] : '';
-  return '<form method="POST" action="" class="mc_contribution_form">
+  return '<form id="mc-contribution-form" method="POST" action="" class="mc_contribution_form">
   	<p>'.$status.'</p>
   	<input type="hidden" name="action" value="process_mc_form">
+    
   	<label for="mc-phone">Phone Number</label>
   	<input id="mc-phone" type="text" name="mc-phone" placeholder="Phone Number" class="mc_phone"><br>
 
@@ -115,7 +117,7 @@ function mc_process_form_data() {
   if ( isset( $_POST['mc-contribute'] ) ) {
     $amount   = trim( $_POST['mc-amount'] );
   	$phone 		= trim( $_POST['mc-phone'] );
-    
+
   	$response 	= mc_mpesa_checkout( $amount, $phone, 'Contributions' );
   	$status 	= json_decode( $response );
 
