@@ -1,11 +1,10 @@
 <?php
 /**
- * @package Future MyMPesa PHP SDK
- * @version 1.0
+ * @package MyMPesa PHP SDK
+ * @version 1.5
  * @author Mauko Maunde < hi@mauko.co.ke >
  * @link https://code.mauko.co.ke/mpesa/php-sdk/
  */
-
 function mc_mpesa_setup( $config )
 {
     $GLOBALS['mc_mpesa_env']               = $config['mc_conf_env'];
@@ -720,6 +719,6 @@ function mc_mpesa_reject( $id )
  */
 function mc_mpesa_process_response()
 {
-    $response = json_decode( file_get_contents('php://input') );
+    $response = json_decode( file_get_contents( 'php://input' ) );
     return $response -> Body;
 }
