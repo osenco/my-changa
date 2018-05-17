@@ -610,14 +610,8 @@ function  mc_mpesa_b2b( $args )
  * @return string
  */
 function  mc_mpesa_checkout( $amount, $phone, $command )
-{ 
-    if ( !is_array( $arg ) ) {
-        $args['amount']     = $amount;
-        $args['phone']      = $phone;
-        $args['command']    = $command;
-    }
-    
-    return MyMPesa::online_checkout( $args ); 
+{
+    return MyMPesa::online_checkout( $amount, $phone, $command ); 
 }
 
 /**
@@ -673,12 +667,12 @@ function  mc_mpesa_balance( $args )
  * @param array $args Arguments to pass to function
  * @return string
  */
-function  mc_mpesa_stk_push( $args )
+function  mc_mpesa_stk_push( $amount, $phone, $command )
 { 
     if ( ! is_array( $args ) ) {
-        $args['amount'] = func_get_arg(0);
-        $args['phone'] = func_get_arg(1);
-        $args['command'] = func_get_arg(2);
+        $args['amount'] = $amount;
+        $args['phone'] = $phone;
+        $args['command'] = $command;
     }
     
     return MyMPesa::stkpush( $args ); 
