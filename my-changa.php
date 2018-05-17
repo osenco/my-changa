@@ -86,11 +86,11 @@ function mc_action_links( $links )
 }
 
 $mconfig = get_option( 'mc_options' );
-$mconfig['mc_callback_url']     = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=reconcile';
-$mconfig['mc_timeout_url']      = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=timeout';
-$mconfig['mc_result_url'] 		  = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=reconcile';
-$mconfig['mc_confirmation_url'] = rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=confirm';
-$mconfig['mc_validation_url'] 	= rtrim( home_url(), '/').':'.$_SERVER['SERVER_PORT'].'/?mpesa_ipn_listener=validate';
+$mconfig['mc_conf_callback_url']     = rtrim( home_url(), '/').':443/?mpesa_ipn_listener=reconcile';
+$mconfig['mc_conf_timeout_url']      = rtrim( home_url(), '/').':443/?mpesa_ipn_listener=timeout';
+$mconfig['mc_conf_result_url'] 		  = rtrim( home_url(), '/').':443/?mpesa_ipn_listener=reconcile';
+$mconfig['mc_conf_confirmation_url'] = rtrim( home_url(), '/').':443/?mpesa_ipn_listener=confirm';
+$mconfig['mc_conf_validation_url'] 	= rtrim( home_url(), '/').':443/?mpesa_ipn_listener=validate';
 mc_mpesa_setup( $mconfig );
 
 add_shortcode('MCFORM', 'mc_form_callback');
@@ -106,7 +106,7 @@ function mc_form_callback( $atts = array(), $content = null ) {
   	<input id="mc-phone" type="text" name="mc-phone" placeholder="Phone Number" class="mc_phone"><br>
 
   	<label for="mc-amount">Amount to contribute</label>
-  	<input id="mc-amount" type="text" name="mc-amount" value="500" class="mc_amount"><br>
+  	<input id="mc-amount" type="text" name="mc-amount" value="200" class="mc_amount"><br>
 
   	<button type="submit" name="mc-contribute" class="mc_contribute">CONTRIBUTE</button>
   </form>';
@@ -120,13 +120,14 @@ function mc_process_form_data() {
 
   	$response 	= mc_mpesa_checkout( $amount, $phone, 'Contributions' );
   	$status 	= json_decode( $response );
+	$s 			= '';
 
     if( !$response ){
       $s .= "<b>Failed!</b> Could not process contribution. Please try again";
     } elseif ( isset( $status->errorCode ) ) {
       $s .= "<b>Request ID:</b> {$status->requestId}<br>";
       $s .= "<b>Error Code:</b> {$status->errorCode}<br>";
-      $s .= "<b>Error Message:</b> {$status->errorMessage} {$phone}<br>";
+      $s .= "<b>Error Message:</b> {$status->errorMessage}<br>";
     } else {
       $ss = $status->Body->stkCallback;
       $s .= "<b>Request ID:</b> {$ss->MerchantRequestID}<br>";
